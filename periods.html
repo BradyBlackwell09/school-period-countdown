@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Period Countdown</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <button class="sidebar-button" onclick="toggleSidebar()">☰</button>
+        <h1>School Period Countdown</h1>
+        <div id="schedule"></div>
+        <div>
+            <p>Countdown until next day starts: <span id="countdownNextDay"></span></p>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <button onclick="switchSchedule(normalSchedule)">Normal Schedule</button>
+            <button onclick="switchSchedule(pepRallySchedule)">Pep Rally Schedule</button>
+            <button onclick="switchSchedule(chapelSchedule)">Chapel Schedule</button>
+            <button class="close-sidebar" onclick="toggleSidebar()">✖</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
