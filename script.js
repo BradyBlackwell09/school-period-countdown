@@ -1,39 +1,14 @@
+
 const normalSchedule = [
-    { name: "Period 1", start: "08:15", end: "08:53" },
-    { name: "Period 2", start: "08:59", end: "09:37" },
-    { name: "Period 3", start: "09:43", end: "10:21" },
-    { name: "Period 4", start: "10:27", end: "11:05" },
-    { name: "Period 5", start: "11:11", end: "11:49" },
-    { name: "Lunch", start: "12:33", end: "13:10" },
-    { name: "Period 6", start: "11:55", end: "12:33" },
-    { name: "Period 7", start: "13:16", end: "13:54" },
-    { name: "Period 8", start: "14:00", end: "14:38" },
-];
-
-const pepRallySchedule = [
-    { name: "Period 1", start: "08:15", end: "08:53" },
-    { name: "Period 2", start: "08:59", end: "09:37" },
-    { name: "Period 3", start: "09:43", end: "10:21" },
-    { name: "Period 4", start: "10:27", end: "11:05" },
-    { name: "Period 5", start: "11:11", end: "11:49" },
-    { name: "Period 6", start: "11:55", end: "12:33" },
-    { name: "Lunch", start: "12:33", end: "13:10" },
-    { name: "Period 7", start: "13:16", end: "13:54" },
-    { name: "Period 8", start: "14:00", end: "14:38" },
-    { name: "Pep Rally", start: "14:45", end: "15:40" },
-];
-
-const chapelSchedule = [
-    { name: "Period 1", start: "08:15", end: "08:53" },
-    { name: "Period 2", start: "08:59", end: "09:38" },
-    { name: "Period 3", start: "09:44", end: "10:23" },
-    { name: "Chapel", start: "10:29", end: "11:14" },
-    { name: "Period 4", start: "11:20", end: "12:00" },
-    { name: "Period 5", start: "12:06", end: "12:46" },
-    { name: "Lunch", start: "12:46", end: "13:28" },
-    { name: "Period 6", start: "13:34", end: "14:12" },
-    { name: "Period 7", start: "14:18", end: "14:56" },
-    { name: "Period 8", start: "15:02", end: "15:40" },
+    { name: "Period 1", start: "08:15", end: "09:00" },
+    { name: "Period 2", start: "09:06", end: "09:51" },
+    { name: "Period 3", start: "09:57", end: "10:42" },
+    { name: "Period 4", start: "10:48", end: "11:33" },
+    { name: "Period 5", start: "11:39", end: "12:25" },
+    { name: "Lunch", start: "12:25", end: "13:07" }, // Corrected Lunch start time
+    { name: "Period 6", start: "13:13", end: "13:58" },
+    { name: "Period 7", start: "14:04", end: "14:49" },
+    { name: "Period 8", start: "14:55", end: "15:40" },
 ];
 
 let currentSchedule = normalSchedule;
@@ -53,51 +28,66 @@ function updateScheduleDisplay() {
     const scheduleContainer = document.getElementById("schedule");
     scheduleContainer.innerHTML = ""; // Clear existing schedule
 
-    currentSchedule.forEach(period => {
+    currentSchedule.forEach((period, index) => {
         const periodDiv = document.createElement("div");
         periodDiv.className = "period";
         const label = document.createElement("label");
-        label.innerText = period.name;
+        label.innerText = period.name; // Display the name as is
         const timer = document.createElement("span");
-        timer.id = `${period.name.replace(/\s+/g, '')}Timer`;
+        timer.id = `Period${index}_Timer`; // Ensure unique IDs
         periodDiv.appendChild(label);
         periodDiv.appendChild(timer);
         scheduleContainer.appendChild(periodDiv);
+
+        console.log(`Created element for ${period.name} with ID: ${timer.id}`);
     });
 
     updateCountdowns(); // Start updating countdowns
 }
 
 function updateCountdowns() {
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
+    const now = new Date;
+    const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    console.log(`Current time in seconds: ${currentTimeInSeconds}`);
 
-    currentSchedule.forEach(period => {
+    currentSchedule.forEach((period, index) => {
         const [startHour, startMinute] = period.start.split(":").map(Number);
-        const periodStartTime = startHour * 60 + startMinute;
-
+        const periodStartTimeInSeconds = (startHour * 3600) + (startMinute * 60);
         const [endHour, endMinute] = period.end.split(":").map(Number);
-        const periodEndTime = endHour * 60 + endMinute;
+        const periodEndTimeInSeconds = (endHour * 3600) + (endMinute * 60);
 
-        if (currentTime < periodStartTime) {
-            const countdown = Math.max(0, periodStartTime - currentTime);
-            document.getElementById(`${period.name.replace(/\s+/g, '')}Timer`).innerText = formatCountdown(countdown);
-        } else if (currentTime >= periodStartTime && currentTime < periodEndTime) {
-            const countdown = Math.max(0, periodEndTime - currentTime);
-            document.getElementById(`${period.name.replace(/\s+/g, '')}Timer`).innerText = formatCountdown(countdown);
+        console.log(`Period: ${period.name}, Start: ${periodStartTimeInSeconds}, End: ${periodEndTimeInSeconds}`);
+
+        let countdown = 0;
+        if (currentTimeInSeconds < periodStartTimeInSeconds) {
+            countdown = periodStartTimeInSeconds - currentTimeInSeconds;
+        } else if (currentTimeInSeconds >= periodStartTimeInSeconds && currentTimeInSeconds < periodEndTimeInSeconds) {
+            countdown = periodEndTimeInSeconds - currentTimeInSeconds;
         } else {
-            document.getElementById(`${period.name.replace(/\s+/g, '')}Timer`).innerText = "Ended";
+            countdown = -1; // Period ended
+        }
+
+        const timerElement = document.getElementById(`Period${index}_Timer`);
+        if (timerElement) {
+            console.log(`Updating ${period.name}: ${countdown >= 0 ? formatCountdown(countdown) : "Ended"}`);
+            timerElement.innerText = countdown >= 0 ? formatCountdown(countdown) : "Ended";
+        } else {
+            console.error(`Timer element for ${period.name} not found`);
         }
     });
 
     // Countdown for next day start
-    const nextDayStart = new Date();
+    const nextDayStart = new Date(now);
     nextDayStart.setHours(8, 15, 0, 0); // Assuming school starts at 8:15
-    if (now.getHours() >= 15) { // After school hours
+    if (now >= nextDayStart) { // After school hours
         nextDayStart.setDate(nextDayStart.getDate() + 1);
     }
-    const countdownNextDay = Math.max(0, Math.floor((nextDayStart - now) / 1000));
-    document.getElementById("countdownNextDay").innerText = formatCountdown(countdownNextDay);
+    const countdownNextDay = Math.floor((nextDayStart - now) / 1000);
+    const countdownNextDayElement = document.getElementById("countdownNextDay");
+    if (countdownNextDayElement) {
+        countdownNextDayElement.innerText = formatCountdown(countdownNextDay);
+    }
+    console.log(`Next day start countdown in seconds: ${countdownNextDay}`);
 }
 
 function formatCountdown(seconds) {
@@ -109,4 +99,4 @@ function formatCountdown(seconds) {
 
 // Initialize schedule display
 updateScheduleDisplay();
-setInterval(updateCountdowns, 1000); // Update countdowns every second
+setInterval(updateCountdowns, 1000); // Update countdown
