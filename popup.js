@@ -109,7 +109,8 @@ document.addEventListener("DOMContentLoaded", function() {
             section.style.color = fontColor;
         });
 
-        // No need to close the sidebar here
+        // Close the sidebar after applying settings
+        toggleSettingsSidebar();
     }
 
     // Attach event listeners
