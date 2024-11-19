@@ -3,34 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule and Settings</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Make sure to link your CSS file -->
+    <title>Schedule Popup</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="popup.js" defer></script>
 </head>
 <body>
-    <!-- Main Container -->
     <div class="container">
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Schedule Container -->
             <div class="schedule-container">
                 <h1>Normal Schedule</h1>
-                <div id="schedule">
-                    <!-- Schedule will be populated here by JavaScript -->
-                </div>
+                <div id="schedule"></div>
             </div>
-
-            <!-- Current Period Display -->
             <div class="current-period">
                 <h2 id="current-schedule-title">Normal Schedule</h2>
                 <div id="current-period-time">00:00</div>
             </div>
         </div>
     </div>
-
-    <!-- Settings Button -->
     <button class="settings-button" onclick="toggleSettingsSidebar()">&#9881;</button>
-
-    <!-- Settings Sidebar -->
     <div id="settings-sidebar" class="settings-sidebar">
         <button class="close-settings-sidebar" onclick="toggleSettingsSidebar()">Close</button>
         <h2>Settings</h2>
@@ -45,7 +35,5 @@
         </div>
         <button onclick="applySettings()">Apply</button>
     </div>
-
-    <script src="scripts.js"></script> <!-- Make sure to link your JavaScript file -->
 </body>
 </html>
