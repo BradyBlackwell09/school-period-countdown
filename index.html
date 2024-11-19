@@ -3,24 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Period Countdown</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Schedule and Settings</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Make sure to link your CSS file -->
 </head>
 <body>
+    <!-- Main Container -->
     <div class="container">
-        <button class="sidebar-button" onclick="toggleSidebar()">☰</button>
-        <h1>School Period Countdown</h1>
-        <div id="schedule"></div>
-        <div>
-            <p>Countdown until next day starts: <span id="countdownNextDay"></span></p>
-        </div>
-        <div class="sidebar" id="sidebar">
-            <button onclick="switchSchedule(normalSchedule)">Normal Schedule</button>
-            <button onclick="switchSchedule(pepRallySchedule)">Pep Rally Schedule</button>
-            <button onclick="switchSchedule(chapelSchedule)">Chapel Schedule</button>
-            <button class="close-sidebar" onclick="toggleSidebar()">✖</button>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Schedule Container -->
+            <div class="schedule-container">
+                <h1>Normal Schedule</h1>
+                <div id="schedule">
+                    <!-- Schedule will be populated here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Current Period Display -->
+            <div class="current-period">
+                <h2 id="current-schedule-title">Normal Schedule</h2>
+                <div id="current-period-time">00:00</div>
+            </div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Settings Button -->
+    <button class="settings-button" onclick="toggleSettingsSidebar()">&#9881;</button>
+
+    <!-- Settings Sidebar -->
+    <div id="settings-sidebar" class="settings-sidebar">
+        <button class="close-settings-sidebar" onclick="toggleSettingsSidebar()">Close</button>
+        <h2>Settings</h2>
+        <div>
+            <label for="bg-color">Background Gradient Color:</label>
+            <input type="color" id="bg-color-start" name="bg-color-start" value="#000035">
+            <input type="color" id="bg-color-end" name="bg-color-end" value="#00bfa5">
+        </div>
+        <div>
+            <label for="font-color">Period Section Font Color:</label>
+            <input type="color" id="font-color" name="font-color" value="#ffffff">
+        </div>
+        <button onclick="applySettings()">Apply</button>
+    </div>
+
+    <script src="scripts.js"></script> <!-- Make sure to link your JavaScript file -->
 </body>
 </html>
+
